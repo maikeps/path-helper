@@ -1,0 +1,15 @@
+canvas {
+	position: relative;
+}
+
+.controls {
+	position: relative;
+}
+
+.button {
+	float: left
+}
+
+.drowpdown-div {
+	float: right;
+}
