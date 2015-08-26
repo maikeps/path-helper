@@ -475,13 +475,20 @@ Renderer.prototype.render = function(){
 
 			this.ctx.fillStyle = "blue";
 			this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);
-	
+
+			if(this.exploredRenderCount > 0){
+				node = this.pathHelper.explored[this.exploredRenderCount-1];
+
+				this.ctx.fillStyle = "#468EA6";
+				this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);					
+			}
+
 			this.exploredRenderCount++;
 		}else{
 			for(var i = 0; i < this.pathHelper.path.length; i++){
 				var node = this.pathHelper.path[i];
 
-				this.ctx.fillStyle = "#696969";
+				this.ctx.fillStyle = "#1C1C1C";
 				this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);
 			}
 		}
@@ -495,13 +502,13 @@ Renderer.prototype.render = function(){
 			if(grid[i][j] != 0){
 				switch(grid[i][j]){
 					case 1:
-						this.ctx.fillStyle = "green";
+						this.ctx.fillStyle = "#5EA646";
 						break;
 					case 2:
-						this.ctx.fillStyle = "red";
+						this.ctx.fillStyle = "#A65E46";
 						break;
 					case 3:
-						this.ctx.fillStyle = "black";
+						this.ctx.fillStyle = "#696969";
 						break;
 				}
 				this.ctx.fillRect(CELL_SIZE*j, CELL_SIZE*i, CELL_SIZE, CELL_SIZE);
