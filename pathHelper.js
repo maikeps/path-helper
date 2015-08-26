@@ -442,7 +442,8 @@ Renderer.prototype.reset = function(){
 	this.bg_rendered = false;
 }
 
-Renderer.prototype.drawLine = function(startx, starty, endx, endy, color, line_width){
+Renderer.prototype.drawLine = function(startx, starty, endx, endy, color, line_width, line_cap){
+	this.ctx.lineCap = line_cap || 'square';
 	this.ctx.strokeStyle = color;
 	this.ctx.lineWidth = line_width;
 	this.ctx.beginPath();
@@ -490,7 +491,7 @@ Renderer.prototype.render = function(){
 		}else{
 			for(var i = 0; i < this.pathHelper.path.length; i++){
 				var node = this.pathHelper.path[i];
-
+				
 				this.ctx.fillStyle = "#1C1C1C";
 				this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);
 			}
