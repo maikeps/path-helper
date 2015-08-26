@@ -137,7 +137,7 @@ Graph.prototype.astar = function(start_node, end_node, heuristic){
 		//select best next node
 		var best_distance = -1;
 		var best_node = -1;
-		//for(var key in nodes_aux){
+
 		for(var i = 0; i < frontier.length; i++){
 			var node = frontier[i];
 			var node_info = nodes_info[node.id];
@@ -152,7 +152,10 @@ Graph.prototype.astar = function(start_node, end_node, heuristic){
 		}
 		//impossible path
 		if(best_node == -1){
-			break;
+			return {
+				path: [],
+				explored: explored
+			}
 		}
 		
 		current_node = best_node;
@@ -169,7 +172,6 @@ Graph.prototype.astar = function(start_node, end_node, heuristic){
 		}
 	}
 	
-	//return path;
 	return {
 		path: path,
 		explored: explored
@@ -230,7 +232,7 @@ Graph.prototype.dijkstra = function(start_node, end_node){
 		//select best next node
 		var best_distance = -1;
 		var best_node = -1;
-		//for(var key in nodes_aux){
+
 		for(var i = 0; i < frontier.length; i++){
 			var node = frontier[i];
 			var node_info = nodes_aux[node.id];
@@ -245,7 +247,10 @@ Graph.prototype.dijkstra = function(start_node, end_node){
 		}
 		//impossible path
 		if(best_node == -1){
-			break;
+			return {
+				path: [],
+				explored: explored
+			};
 		}
 		
 		current_node = best_node;
@@ -262,7 +267,6 @@ Graph.prototype.dijkstra = function(start_node, end_node){
 		}
 	}
 	
-	//return path;
 	return {
 		path: path,
 		explored: explored
@@ -378,19 +382,15 @@ PathHelper.prototype.buildGraph = function(){
 			
 			node = this.graph.getNode(x, y);
 			
-			//if(this.getLeftCell(x, y) == -1){
 			if(this.graph.getNode(x-1, y) == -1){
 				this.graph.addNode(new Node(x-1, y, 3));
 			}
-			//if(this.getRightCell(x, y) == -1){
 			if(this.graph.getNode(x+1, y) == -1){
 				this.graph.addNode(new Node(x+1, y, 3));
 			}
-			//if(this.getUpCell(x, y) == -1){
 			if(this.graph.getNode(x, y-1) == -1){
 				this.graph.addNode(new Node(x, y-1, 3));
 			}
-			//if(this.getDownCell(x, y) == -1){
 			if(this.graph.getNode(x, y+1) == -1){
 				this.graph.addNode(new Node(x, y+1, 3));
 			}
@@ -414,7 +414,6 @@ PathHelper.prototype.buildGraph = function(){
 			this.graph.connect(node, this.graph.getNode(x, y+1), 1);
 			
 			// Diagonal
-			console.log(x-1, y+1, this.graph.getNode(x-1, y+1));
 			this.graph.connect(node, this.graph.getNode(x-1, y-1), 1.4);
 			this.graph.connect(node, this.graph.getNode(x-1, y+1), 1.4);
 			this.graph.connect(node, this.graph.getNode(x+1, y-1), 1.4);
@@ -473,7 +472,11 @@ Renderer.prototype.render = function(){
 		if(this.exploredRenderCount < this.pathHelper.explored.length){
 			var node = this.pathHelper.explored[this.exploredRenderCount]
 
-			this.ctx.fillStyle = "blue";
+			if(this.exploredRenderCount == this.pathHelper.explored.length-1){
+				this.ctx.fillStyle = "#468EA6";
+			}else{
+				this.ctx.fillStyle = "blue";
+			}
 			this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);
 
 			if(this.exploredRenderCount > 0){
