@@ -434,10 +434,13 @@ function Renderer(pathHelper){
 	
 	this.exploredRenderCount = 0;
 	this.pathRenderCount = 0;
+
+	this.bg_rendered = false;
 }
 
 Renderer.prototype.reset = function(){
 	this.exploredRenderCount = 0;
+	this.bg_rendered = false;
 }
 
 Renderer.prototype.drawLine = function(startx, starty, endx, endy, color, line_width){
@@ -450,16 +453,19 @@ Renderer.prototype.drawLine = function(startx, starty, endx, endy, color, line_w
 }
 
 Renderer.prototype.render = function(){
-	this.ctx.fillStyle = "#BDBDBD";
-	this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-	
-	for(var i = 0; i <= GRID_HEIGHT; i++){
-		this.drawLine(0, CELL_SIZE*i, canvas.width, CELL_SIZE*i, "#919191", 1);
-	}	
-	for(var i = 0; i <= GRID_WIDTH; i++){
-		this.drawLine(CELL_SIZE*i, 0, CELL_SIZE*i, canvas.height, "#919191", 1);
+	if(!this.bg_rendered){
+		this.ctx.fillStyle = "#BDBDBD";
+		this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+		
+		for(var i = 0; i <= GRID_HEIGHT; i++){
+			this.drawLine(0, CELL_SIZE*i, canvas.width, CELL_SIZE*i, "#919191", 1);
+		}	
+		for(var i = 0; i <= GRID_WIDTH; i++){
+			this.drawLine(CELL_SIZE*i, 0, CELL_SIZE*i, canvas.height, "#919191", 1);
+		}
+
+		this.bg_rendered = true;
 	}
-	
 	
 	
 	// Draw path
@@ -473,12 +479,6 @@ Renderer.prototype.render = function(){
 			}
 			this.exploredRenderCount++;
 		}else{
-			for(var i = 0; i < this.pathHelper.explored.length; i++){
-				var node = this.pathHelper.explored[i];
-
-				this.ctx.fillStyle = "blue";
-				this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);
-			}
 			for(var i = 0; i < this.pathHelper.path.length; i++){
 				var node = this.pathHelper.path[i];
 
