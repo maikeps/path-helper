@@ -471,12 +471,11 @@ Renderer.prototype.render = function(){
 	// Draw path
 	if(this.pathHelper.ready()){
 		if(this.exploredRenderCount < this.pathHelper.explored.length){
-			for(var i = 0; i < this.exploredRenderCount; i++){
-				var node = this.pathHelper.explored[i];
+			var node = this.pathHelper.explored[this.exploredRenderCount]
 
-				this.ctx.fillStyle = "blue";
-				this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);
-			}
+			this.ctx.fillStyle = "blue";
+			this.ctx.fillRect(CELL_SIZE*node.x, CELL_SIZE*node.y, CELL_SIZE, CELL_SIZE);
+	
 			this.exploredRenderCount++;
 		}else{
 			for(var i = 0; i < this.pathHelper.path.length; i++){
