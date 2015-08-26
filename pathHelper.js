@@ -322,7 +322,7 @@ PathHelper.prototype.ready = function(){
 }
 
 PathHelper.prototype.setReady = function(){
-	if(this.current_state == 2){
+	if(this.current_state >= 2){
 		this.current_state = 3
 		this.buildGraph();
 		
@@ -436,6 +436,10 @@ function Renderer(pathHelper){
 	this.pathRenderCount = 0;
 }
 
+Renderer.prototype.reset = function(){
+	this.exploredRenderCount = 0;
+}
+
 Renderer.prototype.drawLine = function(startx, starty, endx, endy, color, line_width){
 	this.ctx.strokeStyle = color;
 	this.ctx.lineWidth = line_width;
@@ -537,6 +541,7 @@ document.addEventListener('mousemove', function(e){
 }, false);
 
 document.getElementById("ready").addEventListener('click', function(){
+	renderer.reset();
 	pathHelper.setReady();
 }, false);
 
